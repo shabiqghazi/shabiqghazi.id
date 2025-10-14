@@ -18,7 +18,7 @@ services:
 
   shabiqghazi_service:
     build:
-      context: ./strapi
+      context: ./shabiqghazi-id_service
       dockerfile: Dockerfile
     container_name: shabiqghazi_service
     restart: always
@@ -34,7 +34,7 @@ services:
 
   shabiqghazi_id:
     build:
-      context: ./nuxt
+      context: ./shabiqghazi-id
       dockerfile: Dockerfile
     container_name: shabiqghazi_id
     restart: always
