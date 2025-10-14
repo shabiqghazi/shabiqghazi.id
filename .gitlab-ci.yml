@@ -38,6 +38,8 @@ deploy_production:
   stage: deploy
   image: alpine:latest
   before_script:
+    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" "$CI_REGISTRY"
+
     # 1️⃣ Siapkan SSH private key
     - mkdir -p ~/.ssh
     - echo "$SSH_PRIVATE_KEY" | base64 -d > ~/.ssh/id_rsa
