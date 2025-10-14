@@ -36,26 +36,24 @@ build_frontend:
 # === DEPLOY TO VPS ===
 deploy_production:
   stage: deploy
-  image: alpine:latest
+  image: alpine:3.18
   before_script:
-    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" "$CI_REGISTRY"
-
-    # 1️⃣ Siapkan SSH private key
+    - apk add --no-cache openssh
     - mkdir -p ~/.ssh
     - echo "$SSH_PRIVATE_KEY" | base64 -d > ~/.ssh/id_rsa
     - chmod 600 ~/.ssh/id_rsa
-
-    # 2️⃣ Tambahkan known_hosts supaya SSH tidak interaktif
-    - apk add --no-cache openssh
     - ssh-keyscan -H "$SSH_HOST" >> ~/.ssh/known_hosts
+
   script:
-    # 3️⃣ Jalankan perintah di VPS (misal pull dan restart container)
-    - ssh -i ~/.ssh/id_rsa "$SSH_USER@$SSH_HOST" "
-      cd /root/shabiqghazi_website &&
-      git pull origin main &&
-      docker compose down &&
-      docker compose pull &&
-      docker compose up -d
+    - echo "🚀 Deploying to $SSH_HOST ..."
+    - |
+      ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa "$SSH_USER@$SSH_HOST" "
+        docker login -u $CI_REGISTRY_USER -p $CI_JOB_TOKEN $CI_REGISTRY &&
+        cd /root/shabiqghazi_website &&
+        git pull origin main &&
+        docker compose pull &&
+        docker compose up -d --remove-orphans &&
+        docker image prune -f
       "
 
   only:
