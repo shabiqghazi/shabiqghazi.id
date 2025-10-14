@@ -5,6 +5,8 @@ FROM node:20-alpine AS builder
 
 WORKDIR /app
 
+ENV NODE_OPTIONS="--max-old-space-size=1024"
+
 # Install dependencies
 COPY package.json package-lock.json ./
 RUN npm ci
