@@ -25,4 +25,4 @@ COPY --from=build /app/node_modules ./node_modules
 
 # Port Nuxt
 EXPOSE 3000
-CMD ["npx", "nuxt", "preview", "--hostname", "0.0.0.0", "--port", "3000"]
+CMD ["npx", "nuxt", "preview", "--max-old-space-size=1024", "--hostname", "0.0.0.0", "--port", "3000"]
