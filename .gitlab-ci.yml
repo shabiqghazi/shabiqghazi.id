@@ -48,6 +48,7 @@ deploy_production:
     - echo "🚀 Deploying to $SSH_HOST ..."
     - |
       ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa "$SSH_USER@$SSH_HOST" "
+        export IMAGE_TAG=$IMAGE_TAG &&
         docker login -u $CI_REGISTRY_USER -p $CI_JOB_TOKEN $CI_REGISTRY &&
         cd /root/shabiqghazi_website &&
         git pull origin main &&

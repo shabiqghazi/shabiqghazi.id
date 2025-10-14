@@ -17,7 +17,7 @@ services:
       - web
 
   shabiqghazi_service:
-    image: registry.gitlab.com/shabiqghazi/shabiqghazi_website/shabiqghazi_service:latest
+    image: registry.gitlab.com/shabiqghazi/shabiqghazi_website/shabiqghazi_service:${IMAGE_TAG}
     container_name: shabiqghazi_service
     restart: always
     env_file:
@@ -31,7 +31,7 @@ services:
       - web
 
   shabiqghazi_id:
-    image: registry.gitlab.com/shabiqghazi/shabiqghazi_website/shabiqghazi_id:latest
+    image: registry.gitlab.com/shabiqghazi/shabiqghazi_website/shabiqghazi_id:${IMAGE_TAG}
     container_name: shabiqghazi_id
     restart: always
     env_file:
