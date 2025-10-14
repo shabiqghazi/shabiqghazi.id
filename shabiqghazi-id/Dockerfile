@@ -28,4 +28,4 @@ ENV NUXT_PORT=3000
 
 # Port Nuxt
 EXPOSE 3000
-CMD ["npm", "run", "preview"]
+CMD ["npx", "nuxt", "preview", ".output", "--hostname", "0.0.0.0", "--port", "3000"]
