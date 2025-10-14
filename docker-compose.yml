@@ -22,7 +22,6 @@ services:
     restart: always
     env_file:
       - ./.env
-
     ports:
       - "1337:1337"
     depends_on:
