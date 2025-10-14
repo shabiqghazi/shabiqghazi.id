@@ -1,6 +1,11 @@
+image: docker:24.0.5
+
 stages:
   - build
   - deploy
+
+services:
+  - docker:dind
 
 variables:
   DOCKER_DRIVER: overlay2
@@ -8,7 +13,7 @@ variables:
   REGISTRY: $CI_REGISTRY_IMAGE
 
 before_script:
-  - echo $CI_REGISTRY_PASSWORD | docker login -u $CI_REGISTRY_USER $CI_REGISTRY --password-stdin
+  - echo "$CI_REGISTRY_PASSWORD" | docker login -u "$CI_REGISTRY_USER" "$CI_REGISTRY" --password-stdin
 
 # === BUILD STRAPI (SERVICE) ===
 build_service:
