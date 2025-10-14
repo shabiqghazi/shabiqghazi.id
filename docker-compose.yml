@@ -33,8 +33,12 @@ services:
     image: registry.gitlab.com/shabiqghazi/shabiqghazi_website/shabiqghazi_id:${IMAGE_TAG}
     container_name: shabiqghazi_id
     restart: always
-    env_file:
-      - ./.env
+    environment:
+      API_BASE_URL: ${API_BASE_URL}
+      API_MEDIA_URL: ${API_MEDIA_URL}
+      SITE_URL: ${SITE_URL}
+      NUXT_PUBLIC_CAPTCHA_SITE_KEY: ${NUXT_PUBLIC_CAPTCHA_SITE_KEY}
+      CAPTCHA_SECRET_KEY: ${CAPTCHA_SECRET_KEY}
     ports:
       - "3000:3000"
     depends_on:
