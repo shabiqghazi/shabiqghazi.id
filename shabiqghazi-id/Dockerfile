@@ -19,9 +19,9 @@ FROM node:20-bookworm AS production
 WORKDIR /app
 
 # Copy package.json dan node_modules dari build stage
+COPY --from=build /app/.output ./.output
 COPY --from=build /app/package.json ./package.json
 COPY --from=build /app/node_modules ./node_modules
-COPY --from=build /app/.output ./
 
 # Port Nuxt
 EXPOSE 3000
