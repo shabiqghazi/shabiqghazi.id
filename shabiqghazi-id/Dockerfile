@@ -23,6 +23,9 @@ COPY --from=build /app/.output ./.output
 COPY --from=build /app/package.json ./package.json
 COPY --from=build /app/node_modules ./node_modules
 
+ENV NUXT_HOST=0.0.0.0
+ENV NUXT_PORT=3000
+
 # Port Nuxt
 EXPOSE 3000
-CMD ["npm", "run", "preview", ".output"]
+CMD ["npm", "run", "preview"]
