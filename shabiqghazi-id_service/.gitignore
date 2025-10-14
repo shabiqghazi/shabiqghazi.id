@@ -32,6 +32,3 @@ yarn-error.log*
 # Operating System files
 .DS_Store
 Thumbs.db
-
-# Uploaded media files (if using local provider and not storing in Git)
-/public/uploads/
