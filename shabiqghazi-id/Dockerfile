@@ -23,4 +23,4 @@ COPY --from=build /app/.output ./
 
 # Port Nuxt
 EXPOSE 3000
-CMD ["node", "server/index.mjs"]
+CMD ["npm", "run", "preview"]
