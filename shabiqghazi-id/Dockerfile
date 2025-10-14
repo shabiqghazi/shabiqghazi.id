@@ -25,4 +25,4 @@ COPY --from=build /app/node_modules ./node_modules
 
 # Port Nuxt
 EXPOSE 3000
-CMD ["npm", "run", "preview"]
+CMD ["npm", "run", "preview", ".output"]
