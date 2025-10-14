@@ -17,9 +17,7 @@ services:
       - web
 
   shabiqghazi_service:
-    build:
-      context: ./shabiqghazi-id_service
-      dockerfile: Dockerfile
+    image: registry.gitlab.com/shabiqghazi/shabiqghazi_website/shabiqghazi_service:latest
     container_name: shabiqghazi_service
     restart: always
     env_file:
@@ -33,9 +31,7 @@ services:
       - web
 
   shabiqghazi_id:
-    build:
-      context: ./shabiqghazi-id
-      dockerfile: Dockerfile
+    image: registry.gitlab.com/shabiqghazi/shabiqghazi_website/shabiqghazi_id:latest
     container_name: shabiqghazi_id
     restart: always
     env_file:
