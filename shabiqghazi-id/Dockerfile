@@ -1,42 +1,26 @@
-# -------------------------
-# Stage 1: Build
-# -------------------------
-FROM node:18-bullseye-slim AS builder
+# 1️⃣ Gunakan image Node resmi
+FROM node:20-bookworm AS build
 
-# Set working directory
+# 2️⃣ Set working directory
 WORKDIR /app
 
-# Install dependencies
-COPY package.json package-lock.json ./
+# 3️⃣ Copy package dan install dependencies
+COPY package*.json ./
 RUN npm ci
 
-# Copy all source files
+# 4️⃣ Copy seluruh kode ke dalam container
 COPY . .
 
-# Build Nuxt project
+# 5️⃣ Build project Nuxt
 RUN npm run build
 
-# -------------------------
-# Stage 2: Production image
-# -------------------------
-FROM node:18-bullseye-slim
-
+# 6️⃣ Stage untuk production
+FROM node:20-bookworm AS production
 WORKDIR /app
 
-# Copy only necessary files from builder
-COPY --from=builder /app/.output ./.output
-COPY --from=builder /app/package.json ./package.json
-COPY --from=builder /app/package-lock.json ./package-lock.json
+# Hanya ambil hasil build & deps minimal
+COPY --from=build /app/.output ./
 
-# Install only production dependencies
-RUN npm ci --omit=dev
-
-# Expose port (default Nuxt 3 SSR port)
+# Port Nuxt
 EXPOSE 3000
-
-# Set environment variables (optional, bisa juga pakai docker-compose)
-ENV NUXT_HOST=0.0.0.0
-ENV NUXT_PORT=3000
-
-# Start Nuxt server
-CMD ["node", ".output/server/index.mjs"]
+CMD ["node", "server/index.mjs"]
