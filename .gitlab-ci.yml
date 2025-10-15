@@ -6,28 +6,28 @@ variables:
   FRONTEND_DIR: /root/shabiqghazi_website/shabiqghazi-id # ← Ganti dengan path kamu
   BACKEND_DIR: /root/shabiqghazi_website/shabiqghazi-id_service # ← Ganti dengan path kamu
 
-# ====== BUILD FRONTEND ======
-build:frontend:
-  stage: build
-  image: node:20-alpine
-  cache:
-    key: frontend-${CI_COMMIT_REF_SLUG}
-    paths:
-      - shabiqghazi-id/node_modules/
-  script:
-    - cd shabiqghazi-id
-    - npm ci
-    - npm run build
-  artifacts:
-    paths:
-      - shabiqghazi-id/.output/
-      - shabiqghazi-id/package.json
-      - shabiqghazi-id/package-lock.json
-      - shabiqghazi-id/ecosystem.config.cjs
-    expire_in: 1 hour
-  only:
-    - main
-    - master
+# # ====== BUILD FRONTEND ======
+# build:frontend:
+#   stage: build
+#   image: node:20-alpine
+#   cache:
+#     key: frontend-${CI_COMMIT_REF_SLUG}
+#     paths:
+#       - shabiqghazi-id/node_modules/
+#   script:
+#     - cd shabiqghazi-id
+#     - npm ci
+#     - npm run build
+#   artifacts:
+#     paths:
+#       - shabiqghazi-id/.output/
+#       - shabiqghazi-id/package.json
+#       - shabiqghazi-id/package-lock.json
+#       - shabiqghazi-id/ecosystem.config.cjs
+#     expire_in: 1 hour
+#   only:
+#     - main
+#     - master
 
 # ====== BUILD BACKEND ======
 build:backend:
@@ -43,39 +43,38 @@ build:backend:
     - npm run build
   artifacts:
     paths:
-      - shabiqghazi-id_service/build/
-      - shabiqghazi-id_service/dist/
-      - shabiqghazi-id_service/public/
-      - shabiqghazi-id_service/package.json
-      - shabiqghazi-id_service/package-lock.json
-      - shabiqghazi-id_service/ecosystem.config.cjs
+      - shabiqghazi-id_service/
+    exclude:
+      - shabiqghazi-id_service/node_modules/
+      - shabiqghazi-id_service/.cache/
+      - shabiqghazi-id_service/.tmp/
     expire_in: 1 hour
   only:
     - main
     - master
 
-# ====== DEPLOY FRONTEND ======
-deploy:frontend:
-  stage: deploy
-  image: alpine:3.18
-  dependencies:
-    - build:frontend
-  before_script:
-    - apk add --no-cache openssh-client rsync
-    - mkdir -p ~/.ssh
-    - echo "$SSH_PRIVATE_KEY" | base64 -d > ~/.ssh/id_rsa
-    - chmod 600 ~/.ssh/id_rsa
-    - ssh-keyscan -H $SSH_HOST >> ~/.ssh/known_hosts
-  script:
-    - echo "🚀 Deploying frontend to $SSH_HOST ..."
-    - rsync -avz --delete shabiqghazi-id/.output/ $SSH_USER@$SSH_HOST:$FRONTEND_DIR/.output/
-    - rsync -avz shabiqghazi-id/package*.json shabiqghazi-id/ecosystem.config.cjs $SSH_USER@$SSH_HOST:$FRONTEND_DIR/
-    - |
-      ssh -i ~/.ssh/id_rsa $SSH_USER@$SSH_HOST << 'EOF'
-        cd $FRONTEND_DIR
-        pm2 reload shabiqghazi-service --update-env || pm2 start ecosystem.config.cjs
-        pm2 save
-      EOF
+# # ====== DEPLOY FRONTEND ======
+# deploy:frontend:
+#   stage: deploy
+#   image: alpine:3.18
+#   dependencies:
+#     - build:frontend
+#   before_script:
+#     - apk add --no-cache openssh-client rsync
+#     - mkdir -p ~/.ssh
+#     - echo "$SSH_PRIVATE_KEY" | base64 -d > ~/.ssh/id_rsa
+#     - chmod 600 ~/.ssh/id_rsa
+#     - ssh-keyscan -H $SSH_HOST >> ~/.ssh/known_hosts
+#   script:
+#     - echo "🚀 Deploying frontend to $SSH_HOST ..."
+#     - rsync -avz --delete shabiqghazi-id/.output/ $SSH_USER@$SSH_HOST:$FRONTEND_DIR/.output/
+#     - rsync -avz shabiqghazi-id/package*.json shabiqghazi-id/ecosystem.config.cjs $SSH_USER@$SSH_HOST:$FRONTEND_DIR/
+#     - |
+#       ssh -i ~/.ssh/id_rsa $SSH_USER@$SSH_HOST << 'EOF'
+#         cd $FRONTEND_DIR
+#         pm2 reload shabiqghazi-service --update-env || pm2 start ecosystem.config.cjs
+#         pm2 save
+#       EOF
 
 # ====== DEPLOY BACKEND ======
 deploy:backend:
@@ -91,16 +90,28 @@ deploy:backend:
     - ssh-keyscan -H $SSH_HOST >> ~/.ssh/known_hosts
   script:
     - echo "🚀 Deploying backend to $SSH_HOST ..."
-    - rsync -avz --delete --exclude 'node_modules' shabiqghazi-id_service/build/ $SSH_USER@$SSH_HOST:$BACKEND_DIR/build/
-    - rsync -avz shabiqghazi-id_service/public/ $SSH_USER@$SSH_HOST:$BACKEND_DIR/public/
-    - rsync -avz shabiqghazi-id_service/package*.json shabiqghazi-id_service/ecosystem.config.cjs $SSH_USER@$SSH_HOST:$BACKEND_DIR/
+    # Rsync semua file kecuali yang di-exclude
+    - |
+      rsync -avz --delete \
+        --exclude 'node_modules' \
+        --exclude '.cache' \
+        --exclude '.tmp' \
+        --exclude 'public/uploads' \
+        --exclude '.env' \
+        --exclude '.git' \
+        shabiqghazi-id_service/ $SSH_USER@$SSH_HOST:$BACKEND_DIR/
+
+    # Restart PM2
     - |
       ssh -i ~/.ssh/id_rsa $SSH_USER@$SSH_HOST << 'EOF'
-        cd $BACKEND_DIR
+        cd /root/shabiqghazi_website/shabiqghazi-id_service
+        npm ci --omit=dev
         pm2 reload shabiqghazi-backend --update-env || pm2 start ecosystem.config.cjs --name "shabiqghazi-backend"
         pm2 save
       EOF
-
   environment:
     name: production-backend
     url: https://api.shabiqghazi.id
+  only:
+    - main
+    - master
