@@ -1,0 +1,9 @@
+node_modules
+.nuxi
+.output
+.git
+.gitignore
+Dockerfile
+docker-compose.yml
+*.log
+.env
