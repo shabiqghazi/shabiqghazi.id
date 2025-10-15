@@ -73,8 +73,7 @@
 #     - |
 #       ssh -i ~/.ssh/id_rsa $SSH_USER@$SSH_HOST << 'EOF'
 #         cd $FRONTEND_DIR
-#         npm ci --omit=dev
-#         pm2 reload shabiqghazi-id --update-env || pm2 start ecosystem.config.cjs
+#         pm2 reload shabiqghazi-service --update-env || pm2 start ecosystem.config.cjs
 #         pm2 save
 #       EOF
 
@@ -99,7 +98,6 @@
 #     - |
 #       ssh -i ~/.ssh/id_rsa $SSH_USER@$SSH_HOST << 'EOF'
 #         cd $BACKEND_DIR
-#         npm ci --omit=dev
 #         pm2 reload shabiqghazi-service --update-env || pm2 start ecosystem.config.cjs
 #         pm2 save
 #       EOF
