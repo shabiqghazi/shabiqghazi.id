@@ -39,7 +39,6 @@ build:backend:
       - shabiqghazi-id_service/node_modules/
   script:
     - cd shabiqghazi-id_service
-    - npm ci
     - npm run build
   artifacts:
     paths:
@@ -91,14 +90,13 @@ deploy:backend:
     - ssh-keyscan -H $SSH_HOST >> ~/.ssh/known_hosts
   script:
     - echo "🚀 Deploying backend to $SSH_HOST ..."
-    # Upload build artifacts (include uploads folder)
-    - rsync -avz --delete --exclude 'node_modules' dist/ $SSH_USER@$SSH_HOST:$BACKEND_DIR/dist/
-    - rsync -avz public/ $SSH_USER@$SSH_HOST:$BACKEND_DIR/public/
-    - rsync -avz package*.json ecosystem.config.js $SSH_USER@$SSH_HOST:$BACKEND_DIR/
+    - rsync -avz --delete --exclude 'node_modules' shabiqghazi-id_service/build/ $SSH_USER@$SSH_HOST:$BACKEND_DIR/build/
+    - rsync -avz shabiqghazi-id_service/public/ $SSH_USER@$SSH_HOST:$BACKEND_DIR/public/
+    - rsync -avz shabiqghazi-id_service/package*.json shabiqghazi-id_service/ecosystem.config.cjs $SSH_USER@$SSH_HOST:$BACKEND_DIR/
     - |
       ssh -i ~/.ssh/id_rsa $SSH_USER@$SSH_HOST << 'EOF'
         cd $BACKEND_DIR
-        pm2 reload shabiqghazi-service --update-env || pm2 start ecosystem.config.cjs
+        pm2 reload shabiqghazi-backend --update-env || pm2 start ecosystem.config.cjs --name "shabiqghazi-backend"
         pm2 save
       EOF
 
