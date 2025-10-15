@@ -16,7 +16,7 @@ build:frontend:
       - shabiqghazi-id/node_modules/
   script:
     - cd shabiqghazi-id
-    - npm ci --omit=dev
+    - npm ci
     - npm run build
   artifacts:
     paths:
@@ -39,7 +39,7 @@ build:backend:
       - shabiqghazi-id_service/node_modules/
   script:
     - cd shabiqghazi-id_service
-    - npm ci --omit=dev
+    - npm ci
     - npm run build
   artifacts:
     paths:
