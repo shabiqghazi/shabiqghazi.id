@@ -13,7 +13,7 @@ module.exports = {
         NODE_ENV: "production",
         HOST: "0.0.0.0",
         PORT: 3000,
-        NODE_OPTIONS: "--max-old-space-size=512",
+        NODE_OPTIONS: "--max-old-space-size=1024",
       },
 
       error_file: "./logs/error.log",
