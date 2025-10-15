@@ -39,6 +39,9 @@ services:
       SITE_URL: ${SITE_URL}
       NUXT_PUBLIC_CAPTCHA_SITE_KEY: ${NUXT_PUBLIC_CAPTCHA_SITE_KEY}
       CAPTCHA_SECRET_KEY: ${CAPTCHA_SECRET_KEY}
+      NODE_ENV: production
+      HOST: 0.0.0.0
+      PORT: 3000
     ports:
       - "3000:3000"
     depends_on:

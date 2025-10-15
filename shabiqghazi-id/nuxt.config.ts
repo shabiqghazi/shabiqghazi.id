@@ -26,6 +26,7 @@ export default defineNuxtConfig({
   plugins: [{ src: "~/plugins/vue-recaptcha-v3.client.ts", mode: "client" }],
   nitro: {
     compressPublicAssets: true,
+    preset: "node-server",
   },
   sitemap: {
     sources: ["/api/__sitemap__/urls"],

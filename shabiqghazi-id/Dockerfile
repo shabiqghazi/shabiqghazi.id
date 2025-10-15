@@ -1,28 +1,41 @@
-# 1️⃣ Gunakan image Node resmi
-FROM node:20-bookworm AS build
+# Build stage
+FROM node:20-alpine AS builder
 
-# 2️⃣ Set working directory
 WORKDIR /app
 
-# 3️⃣ Copy package dan install dependencies
+# Copy package files
 COPY package*.json ./
+
+# Install dependencies
 RUN npm ci
 
-# 4️⃣ Copy seluruh kode ke dalam container
+# Copy source code
 COPY . .
 
-# 5️⃣ Build project Nuxt
+# Build the application
 RUN npm run build
 
-# 6️⃣ Stage untuk production
-FROM node:20-bookworm AS production
+# Production stage
+FROM node:20-alpine
+
 WORKDIR /app
 
-# Copy package.json dan node_modules dari build stage
-COPY --from=build /app/.output ./.output
-COPY --from=build /app/package.json ./package.json
-COPY --from=build /app/node_modules ./node_modules
+# Copy package files
+COPY package*.json ./
 
-# Port Nuxt
+# Install production dependencies only
+RUN npm ci --omit=dev
+
+# Copy built application from builder
+COPY --from=builder /app/.output /app/.output
+
+# Expose port
 EXPOSE 3000
-CMD ["npx", "nuxt", "preview", "--max-old-space-size=1024", "--hostname", "0.0.0.0", "--port", "3000"]
+
+# Set environment variables
+ENV HOST=0.0.0.0
+ENV PORT=3000
+ENV NODE_ENV=production
+
+# Start the application
+CMD ["node", ".output/server/index.mjs"]
