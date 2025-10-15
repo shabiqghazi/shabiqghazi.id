@@ -57,73 +57,53 @@ build:backend:
 # ====== DEPLOY FRONTEND ======
 deploy:frontend:
   stage: deploy
-  image: debian:bookworm-slim
+  image: alpine:3.18
   dependencies:
     - build:frontend
   before_script:
-    - apt-get update -y
-    - apt-get install -y openssh-client rsync bash
-    - eval $(ssh-agent -s)
-    - echo "$SSH_PRIVATE_KEY_B64" | base64 -d | ssh-add -
+    - apk add --no-cache openssh-client rsync
     - mkdir -p ~/.ssh
-    - chmod 700 ~/.ssh
-    - ssh-keyscan -H "$SSH_HOST" >> ~/.ssh/known_hosts
+    - echo "$SSH_PRIVATE_KEY" | base64 -d > ~/.ssh/id_rsa
+    - chmod 600 ~/.ssh/id_rsa
+    - ssh-keyscan -H $SSH_HOST >> ~/.ssh/known_hosts
   script:
-    - cd shabiqghazi-id
-    - rsync -avz --delete .output/ "$SSH_USER@$SSH_HOST:$FRONTEND_DIR/.output/"
-    - rsync -avz package*.json ecosystem.config.js "$SSH_USER@$SSH_HOST:$FRONTEND_DIR/"
+    - echo "🚀 Deploying frontend to $SSH_HOST ..."
+    - rsync -avz --delete shabiqghazi-id/.output/ $SSH_USER@$SSH_HOST:$FRONTEND_DIR/.output/
+    - rsync -avz shabiqghazi-id/package*.json shabiqghazi-id/ecosystem.config.js $SSH_USER@$SSH_HOST:$FRONTEND_DIR/
     - |
-      ssh "$SSH_USER@$SSH_HOST" bash << 'EOF'
-        set -e
-        cd /root/shabiqghazi_website/shabiqghazi-id
+      ssh -i ~/.ssh/id_rsa $SSH_USER@$SSH_HOST << 'EOF'
+        cd $FRONTEND_DIR
         npm ci --omit=dev
         pm2 reload shabiqghazi-id --update-env || pm2 start ecosystem.config.js
         pm2 save
       EOF
-  only:
-    - main
-    - master
-  environment:
-    name: production-frontend
-    url: https://shabiqghazi.id
 
 # ====== DEPLOY BACKEND ======
 deploy:backend:
   stage: deploy
-  image: debian:bookworm-slim
+  image: alpine:3.18
   dependencies:
     - build:backend
   before_script:
-    # Install tools di environment GitLab runner
-    - apt-get update -y
-    - apt-get install -y openssh-client rsync
-
-    # Setup SSH untuk koneksi ke VPS kamu
-    - eval "$(ssh-agent -s)"
-    - echo "$SSH_PRIVATE_KEY_B64" | base64 -d | ssh-add -
+    - apk add --no-cache openssh-client rsync
     - mkdir -p ~/.ssh
-    - chmod 700 ~/.ssh
-    - ssh-keyscan -H "$SSH_HOST" >> ~/.ssh/known_hosts
+    - echo "$SSH_PRIVATE_KEY" | base64 -d > ~/.ssh/id_rsa
+    - chmod 600 ~/.ssh/id_rsa
+    - ssh-keyscan -H $SSH_HOST >> ~/.ssh/known_hosts
   script:
-    - cd shabiqghazi-id_service
-
-    # Upload semua file hasil build ke VPS (termasuk uploads)
-    - rsync -avz --delete \
-      build/ dist/ public/ \
-      package*.json ecosystem.config.js \
-      $SSH_USER@$SSH_HOST:$BACKEND_DIR/
-
-    # Jalankan proses restart backend di VPS
+    - echo "🚀 Deploying backend to $SSH_HOST ..."
+    - rsync -avz --delete shabiqghazi-id_service/build/ $SSH_USER@$SSH_HOST:$BACKEND_DIR/build/
+    - rsync -avz --delete shabiqghazi-id_service/dist/ $SSH_USER@$SSH_HOST:$BACKEND_DIR/dist/
+    - rsync -avz --delete shabiqghazi-id_service/public/ $SSH_USER@$SSH_HOST:$BACKEND_DIR/public/
+    - rsync -avz shabiqghazi-id_service/package*.json shabiqghazi-id_service/ecosystem.config.js $SSH_USER@$SSH_HOST:$BACKEND_DIR/
     - |
-      ssh $SSH_USER@$SSH_HOST << 'EOF'
+      ssh -i ~/.ssh/id_rsa $SSH_USER@$SSH_HOST << 'EOF'
         cd $BACKEND_DIR
         npm ci --omit=dev
         pm2 reload shabiqghazi-service --update-env || pm2 start ecosystem.config.js
         pm2 save
       EOF
-  only:
-    - main
-    - master
+
   environment:
     name: production-backend
     url: https://api.shabiqghazi.id
