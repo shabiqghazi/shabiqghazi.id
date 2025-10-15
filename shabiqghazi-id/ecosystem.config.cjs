@@ -5,7 +5,7 @@ module.exports = {
       script: "./.output/server/index.mjs",
       cwd: "/root/shabiqghazi_website/shabiqghazi-id", // ← Ganti dengan path kamu
       instances: 1,
-      exec_mode: "cluster",
+      exec_mode: "fork",
 
       max_memory_restart: "1536M",
 
