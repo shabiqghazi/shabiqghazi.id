@@ -42,11 +42,11 @@ services:
       NODE_ENV: production
       HOST: 0.0.0.0
       PORT: 3000
-      NODE_OPTIONS: --max-old-space-size=1024
+      NODE_OPTIONS: --max-old-space-size=1792
     ports:
       - "3000:3000"
-    mem_limit: 1536m # 1.5GB (bisa pakai swap 2GB)
-    mem_reservation: 512m
+    mem_limit: 2560m
+    mem_reservation: 768m
     depends_on:
       - shabiqghazi_service
     networks:
