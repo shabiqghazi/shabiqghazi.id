@@ -1,0 +1,44 @@
+name: Build and Push to Docker Hub
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1️⃣ Checkout source code
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # 2️⃣ Login to Docker Hub
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      # 3️⃣ Build & push backend (shabiqghazi_service)
+      - name: Build and push backend image
+        uses: docker/build-push-action@v6
+        with:
+          context: ./shabiqghazi-id_service
+          file: ./shabiqghazi-id_service/Dockerfile
+          push: true
+          tags: |
+            ${{ secrets.DOCKERHUB_USERNAME }}/shabiqghazi_service:latest
+            ${{ secrets.DOCKERHUB_USERNAME }}/shabiqghazi_service:${{ github.sha }}
+
+      # 4️⃣ Build & push frontend (shabiqghazi_id)
+      - name: Build and push frontend image
+        uses: docker/build-push-action@v6
+        with:
+          context: ./shabiqghazi-id
+          file: ./shabiqghazi-id/Dockerfile
+          push: true
+          tags: |
+            ${{ secrets.DOCKERHUB_USERNAME }}/shabiqghazi_id:latest
+            ${{ secrets.DOCKERHUB_USERNAME }}/shabiqghazi_id:${{ github.sha }}
