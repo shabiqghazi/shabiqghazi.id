@@ -15,7 +15,7 @@ export default defineEventHandler(async (event) => {
     {
       method: "POST",
       body: new URLSearchParams({
-        secret: config.public.captchaSecretKey,
+        secret: config.captchaSecretKey,
         response: body.recaptcha_token,
       }),
     }
