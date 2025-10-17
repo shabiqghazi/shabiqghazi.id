@@ -32,32 +32,6 @@ services:
     networks:
       - web
 
-  shabiqghazi_id:
-    build:
-      context: ./shabiqghazi-id
-      dockerfile: Dockerfile
-    image: shabiqghazi/shabiqghazi_id:latest
-    container_name: shabiqghazi_id
-    restart: always
-    environment:
-      API_BASE_URL: ${API_BASE_URL}
-      API_MEDIA_URL: ${API_MEDIA_URL}
-      SITE_URL: ${SITE_URL}
-      NUXT_PUBLIC_CAPTCHA_SITE_KEY: ${NUXT_PUBLIC_CAPTCHA_SITE_KEY}
-      CAPTCHA_SECRET_KEY: ${CAPTCHA_SECRET_KEY}
-      NODE_ENV: production
-      HOST: 0.0.0.0
-      PORT: 3000
-      NODE_OPTIONS: --max-old-space-size=1792
-    ports:
-      - "3000:3000"
-    mem_limit: 2560m
-    mem_reservation: 768m
-    depends_on:
-      - shabiqghazi_service
-    networks:
-      - web
-
   nginx:
     image: nginx:latest
     container_name: nginx_proxy
@@ -67,7 +41,6 @@ services:
     volumes:
       - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
     depends_on:
-      - shabiqghazi_id
       - shabiqghazi_service
     networks:
       - web
