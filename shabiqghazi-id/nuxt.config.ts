@@ -1,6 +1,5 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 import tailwindcss from "@tailwindcss/vite";
-import type { IStrapiArticle } from "./types/strapi-article";
 
 export default defineNuxtConfig({
   devtools: { enabled: false },
@@ -34,42 +33,6 @@ export default defineNuxtConfig({
 
   nitro: {
     preset: "vercel",
-    prerender: {
-      failOnError: false,
-      crawlLinks: true,
-      routes: ["/"],
-      ignore: ["/admin", "/api"],
-    },
-  },
-
-  hooks: {
-    async "nitro:config"(nitroConfig) {
-      if (nitroConfig.dev) return;
-
-      // Fetch semua artikel dari Strapi
-      const articles = await fetchArticles();
-
-      if (articles.length) {
-        const articleRoutes = articles.map(
-          (article: IStrapiArticle) => `/articles/${article.slug}`
-        );
-
-        nitroConfig.prerender = nitroConfig.prerender || { routes: [] };
-        nitroConfig.prerender.routes = [
-          ...(nitroConfig.prerender.routes || []),
-          ...articleRoutes,
-        ];
-      }
-    },
-  },
-
-  routeRules: {
-    "/": { prerender: true },
-    "/articles": { prerender: true },
-    "/articles/**": { prerender: true },
-    "/gallery": { prerender: true },
-    "/about": { prerender: true },
-    "/contact": { prerender: true },
   },
 
   experimental: {
@@ -108,16 +71,3 @@ export default defineNuxtConfig({
     },
   },
 });
-
-// Helper function untuk fetch articles dari Strapi
-async function fetchArticles() {
-  try {
-    const apiBase = process.env.API_BASE_URL || "http://localhost:1337/api";
-    const response = await fetch(`${apiBase}/articles?fields[0]=slug`);
-    const data = await response.json();
-    return data.data || [];
-  } catch (error) {
-    console.error("Error fetching articles:", error);
-    return [];
-  }
-}
