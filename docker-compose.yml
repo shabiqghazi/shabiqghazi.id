@@ -50,8 +50,6 @@ services:
       PORT: 3000
     ports:
       - "3000:3000"
-    mem_limit: 2560m
-    mem_reservation: 768m
     depends_on:
       - shabiqghazi_service
     networks:
