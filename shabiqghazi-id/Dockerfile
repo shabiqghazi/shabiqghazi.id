@@ -1,21 +1,3 @@
-# Build stage
-FROM node:20-alpine AS builder
-
-WORKDIR /app
-
-# Copy package files
-COPY package*.json ./
-
-# Install dependencies
-RUN npm ci
-
-# Copy source code
-COPY . .
-
-# Build the application
-RUN npm run build
-
-# Production stage
 FROM node:20-alpine
 
 WORKDIR /app
@@ -23,11 +5,17 @@ WORKDIR /app
 # Copy package files
 COPY package*.json ./
 
-# Install production dependencies only
-RUN npm ci --omit=dev
+# Install dependencies (semua dulu, termasuk dev)
+RUN npm ci
 
-# Copy built application from builder
-COPY --from=builder /app/.output /app/.output
+# Copy source code
+COPY . .
+
+# Build the Nuxt app
+RUN npm run build
+
+# Hapus dev dependencies untuk hasil akhir yang ringan
+RUN npm prune --omit=dev
 
 # Expose port
 EXPOSE 3000
@@ -37,5 +25,5 @@ ENV HOST=0.0.0.0
 ENV PORT=3000
 ENV NODE_ENV=production
 
-# Start the application
+# Start the app
 CMD ["node", ".output/server/index.mjs"]
