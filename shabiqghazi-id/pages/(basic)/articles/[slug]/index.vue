@@ -21,7 +21,10 @@
         :alt="article.title"
         loading="lazy"
       />
-      <div v-sanitize-html="article?.body" />
+      <div
+        class="[&>p]:mb-4 ck-content !leading-loose"
+        v-sanitize-html="article?.body"
+      />
     </article>
     <div class="flex flex-col">
       <BaseSidebar />
