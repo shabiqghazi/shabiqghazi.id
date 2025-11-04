@@ -20,7 +20,7 @@
             size="lg"
             class="flex gap-2 hover:gap-3 bg-white text-black hover:cursor-pointer hover:bg-green-300 hover:text-black border border-neutral-300 transition-all duration-200"
           >
-            <span>More About Me</span>
+            <span>Selengkapnya</span>
           </Button>
         </NuxtLink>
       </div>

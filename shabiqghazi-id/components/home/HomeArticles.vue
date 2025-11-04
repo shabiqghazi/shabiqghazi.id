@@ -15,7 +15,7 @@
           size="lg"
           class="flex gap-2 hover:gap-3 hover:cursor-pointer hover:bg-green-300 hover:text-black border border-black transition-all duration-200"
         >
-          <span>More Articles</span>
+          <span>Selengkapnya</span>
         </Button>
       </NuxtLink>
     </div>
