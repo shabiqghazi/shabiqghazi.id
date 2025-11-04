@@ -65,7 +65,7 @@ const breadcrumbs = computed(() => [
   { title: "Artikel", route: "/articles" },
   {
     title: data.value?.title ?? "",
-    route: data.value?.slug ? `articles/${data.value?.slug}` : "/",
+    route: data.value?.slug ? `/articles/${data.value?.slug}` : "/",
   },
 ]);
 setArticleSeo(data.value, breadcrumbs.value);

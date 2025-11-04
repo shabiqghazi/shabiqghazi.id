@@ -30,14 +30,16 @@
           Quiet observer. Long-life learner
         </p>
         <div>
-          <Button
-            variant="outline"
-            size="lg"
-            class="border border-black flex gap-2 hover:gap-3 hover:cursor-pointer hover:bg-green-300 transition-all duration-200"
-          >
-            <span>Hubungi Saya</span>
-            <ArrowRight :size="16" />
-          </Button>
+          <NuxtLink href="/contact" class="">
+            <Button
+              variant="outline"
+              size="lg"
+              class="border border-black flex gap-2 hover:gap-3 hover:cursor-pointer hover:bg-green-300 transition-all duration-200"
+            >
+              <span>Hubungi Saya</span>
+              <ArrowRight :size="16" />
+            </Button>
+          </NuxtLink>
         </div>
       </div>
     </div>
