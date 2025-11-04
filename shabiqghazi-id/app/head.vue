@@ -12,7 +12,11 @@
     <meta title="Shabiq Ghazi Arkaan" />
 
     <link rel="icon" type="image/png" href="/favicon.png" />
+    <link rel="canonical" href="https://shabiqghazi.id/" />
     <title>Shabiq Ghazi Arkaan</title>
-    <meta name="description" content="Shabiq Ghazi Arkaan Profile Website" />
+    <meta
+      name="description"
+      content="Personal blog, portfolio, and AI projects by Shabiq Ghazi. Learnings, writings, and experiments."
+    />
   </Head>
 </template>
