@@ -32,7 +32,7 @@ export default defineNuxtConfig({
   plugins: [{ src: "~/plugins/vue-recaptcha-v3.client.ts", mode: "client" }],
 
   nitro: {
-    preset: "vercel",
+    preset: "node-server",
   },
 
   experimental: {
