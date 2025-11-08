@@ -17,7 +17,7 @@
         </NuxtLink>
         <p class="text-xs flex items-center gap-2">
           <CalendarDays :size="10" />
-          <span>{{ formatDateHumanize(props.article.publishedAt ?? "") }}</span>
+          <span>{{ formatDateHumanize(props.article.createdAt ?? "") }}</span>
         </p>
       </CardContent>
     </div>
