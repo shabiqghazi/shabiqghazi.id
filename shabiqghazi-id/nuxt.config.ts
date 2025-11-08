@@ -27,6 +27,10 @@ export default defineNuxtConfig({
       captchaSiteKey: process.env.NUXT_PUBLIC_CAPTCHA_SITE_KEY,
     },
     captchaSecretKey: process.env.CAPTCHA_SECRET_KEY,
+    smtpHost: process.env.SMTP_HOST,
+    smtpPort: process.env.SMTP_PORT,
+    smtpUser: process.env.SMTP_USER,
+    smtpPass: process.env.SMTP_PASS,
   },
 
   plugins: [{ src: "~/plugins/vue-recaptcha-v3.client.ts", mode: "client" }],

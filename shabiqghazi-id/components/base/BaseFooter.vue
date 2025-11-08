@@ -15,7 +15,7 @@
           <Button
             class="bg-green-300 text-neutral-800 hover:cursor-pointer hover:bg-green-200"
           >
-            <span>Lihat Situs Developer</span><Globe :size="16" />
+            <span>Lihat Situs Portfolio</span><Globe :size="16" />
           </Button>
         </NuxtLink>
       </div>
@@ -32,11 +32,11 @@
         <p class="text-lg font-bold">Sosial</p>
         <div class="flex flex-col gap-3 text-neutral-400">
           <NuxtLink
-            href="mailto:sgarkaan02@gmail.com"
+            href="mailto:contact@shabiqghazi.id"
             target="_blank"
             class="flex items-center gap-2"
           >
-            <Mail :size="16" /><span>sgarkaan02@gmail.com</span>
+            <Mail :size="16" /><span>contact@shabiqghazi.id</span>
           </NuxtLink>
           <NuxtLink
             href="https://instagram.com/shabiqghazi"
