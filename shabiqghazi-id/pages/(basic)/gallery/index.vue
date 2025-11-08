@@ -74,6 +74,7 @@ import type { IStrapiPhoto } from "~/types/strapi-photo";
 import type { IStrapiCollectionResponse } from "~/types/strapi";
 
 const { setBreadcrumbs, setPageTitle } = useBreadcrumb();
+const { setSeoData } = useSeo();
 
 const { getMediaUrl, getStrapiSrcSet } = useStrapi();
 
@@ -111,6 +112,12 @@ const breadcrumbs = [
   { title: "Beranda", route: "/" },
   { title: "Galeri", route: "/gallery" },
 ];
+
+setSeoData({
+  title: "Galeri | Shabiq Ghazi Arkaan's Blog",
+  description: "Daftar foto terbaru tentang Shabiq Ghazi Arkaan.",
+  breadcrumbs: breadcrumbs,
+});
 
 setPageTitle("Galeri");
 setBreadcrumbs(breadcrumbs);

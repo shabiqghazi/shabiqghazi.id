@@ -82,6 +82,7 @@ import { Skeleton } from "~/components/ui/skeleton";
 const route = useRoute();
 const router = useRouter();
 const { setBreadcrumbs, setPageTitle } = useBreadcrumb();
+const { setSeoData } = useSeo();
 
 const fetchParams = computed(() => ({
   page: parseInt((route.query.page as string) ?? "1"),
@@ -109,11 +110,13 @@ const handlePageChange = async (page: number) => {
 const articles = computed(() => data.value?.data ?? []);
 const meta = computed(() => data.value?.meta);
 
+const baseBreadcrumbs = [
+  { title: "Beranda", route: "/" },
+  { title: "Artikel", route: "/articles" },
+];
+
 const breadcrumbs = computed(() => {
-  const pages = [
-    { title: "Beranda", route: "/" },
-    { title: "Artikel", route: "/articles" },
-  ];
+  const pages = [...baseBreadcrumbs];
 
   if (fetchParams.value.search) {
     pages.push({
@@ -125,6 +128,12 @@ const breadcrumbs = computed(() => {
   return pages;
 });
 
+setSeoData({
+  title: "Artikel | Shabiq Ghazi Arkaan's Blog",
+  description:
+    "Daftar artikel terbaru tentang teknologi, edukasi, pengalaman, dan lainnya di blog pribadi Shabiq Ghazi Arkaan.",
+  breadcrumbs: baseBreadcrumbs,
+});
 setPageTitle("Artikel");
 setBreadcrumbs(breadcrumbs.value);
 

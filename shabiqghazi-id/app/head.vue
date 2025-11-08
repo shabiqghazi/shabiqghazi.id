@@ -11,7 +11,7 @@
     <meta name="twitter:site" content="@shabiqghazi" />
     <meta title="Shabiq Ghazi Arkaan" />
 
-    <link rel="icon" type="image/png" href="/favicon.png" />
+    <link rel="icon" href="/favicon.ico" />
     <link rel="canonical" href="https://shabiqghazi.id/" />
     <title>Shabiq Ghazi Arkaan</title>
     <meta

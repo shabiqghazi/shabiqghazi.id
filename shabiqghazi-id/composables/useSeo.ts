@@ -1,13 +1,13 @@
 import type { IStrapiArticle } from "~/types/strapi-article";
 
 interface ISEOParam {
-  title: string;
-  description: string;
-  image: string | null;
-  type: string;
+  title?: string;
+  description?: string;
+  image?: string | null;
+  type?: string;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  additionalMeta: any;
-  breadcrumbs: IBreadcrumb[];
+  additionalMeta?: any;
+  breadcrumbs?: IBreadcrumb[];
 }
 
 interface IBreadcrumb {
@@ -53,11 +53,11 @@ export const useSeo = () => {
     setPageDescription(description);
   };
 
-  const getStructuredBreadcrumbs = (breadcrumbs: IBreadcrumb[]) => {
+  const getStructuredBreadcrumbs = (breadcrumbs?: IBreadcrumb[]) => {
     const { $config } = useNuxtApp();
     const siteURL = $config.public.siteURL ?? "/";
 
-    return breadcrumbs.map((item, index) => ({
+    return breadcrumbs?.map((item, index) => ({
       "@type": "ListItem",
       position: index + 1,
       name: item.title,

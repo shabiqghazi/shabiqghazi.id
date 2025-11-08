@@ -1,25 +1,25 @@
 interface IBreadcrumb {
-  title: string;
-  route: string;
+  title?: string;
+  route?: string;
 }
 
 export const useBreadcrumb = () => {
   const breadcrumbs = useState<IBreadcrumb[]>("breadcrumbs", () => []);
-  const pageTitle = useState<string | null>("pageTitle", () => null);
-  const pageDescription = useState<string | null>(
+  const pageTitle = useState<string | undefined>("pageTitle", () => undefined);
+  const pageDescription = useState<string | undefined>(
     "pageDescription",
-    () => null
+    () => undefined
   );
 
   const setBreadcrumbs = (newBreadcrumbs: IBreadcrumb[]) => {
     breadcrumbs.value = newBreadcrumbs;
   };
 
-  const setPageTitle = (title: string) => {
+  const setPageTitle = (title?: string) => {
     pageTitle.value = title;
   };
 
-  const setPageDescription = (description: string) => {
+  const setPageDescription = (description?: string) => {
     pageDescription.value = description;
   };
 
