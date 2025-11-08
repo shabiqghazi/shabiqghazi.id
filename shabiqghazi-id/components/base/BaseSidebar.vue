@@ -44,8 +44,15 @@ import type { IStrapiArticle } from "~/types/strapi-article";
 
 const search = ref<string>("");
 
-const { data } = await useFetch<IStrapiCollectionResponse<IStrapiArticle>>(
-  `/api/articles/latest`
+const { data } = useFetch<IStrapiCollectionResponse<IStrapiArticle>>(
+  `/api/articles/latest`,
+  {
+    key: "latest-article",
+    lazy: true,
+    server: true,
+    getCachedData: (key) =>
+      useNuxtApp().payload.data[key] || useNuxtApp().static.data[key],
+  }
 );
 
 const articles = computed(() => data.value?.data);
