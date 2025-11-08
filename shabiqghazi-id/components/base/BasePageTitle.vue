@@ -51,7 +51,7 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import { Slash } from "lucide-vue-next";
-import pageTitleImg from "~/assets/images/page-title.jpeg";
+import pageTitleImg from "~/assets/images/page-title.webp";
 
 interface IProps {
   pageTitle: string | null;

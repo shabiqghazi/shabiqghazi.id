@@ -9,31 +9,21 @@ export default defineNuxtConfig({
   ssr: true,
 
   routeRules: {
-    // List artikel - cache 5 menit dengan SWR
     "/articles": {
-      swr: 60 * 5, // 5 menit
-      // Alternatif: isr untuk revalidate on-demand
-      // isr: 60 * 5,
+      swr: 60 * 5,
     },
-
-    // Detail artikel - cache lebih lama karena jarang berubah
     "/articles/**": {
-      swr: 60 * 60, // 1 jam
+      swr: 60 * 60,
     },
-
-    // API routes juga bisa di-cache
     "/api/articles": {
-      swr: 60 * 5, // Cache API 5 menit
+      swr: 60 * 5,
     },
-
     "/api/articles/**": {
-      swr: 60 * 60, // Cache detail artikel 1 jam
+      swr: 60 * 60,
     },
-
     "/": {
       swr: 60 * 60,
     },
-
     "/about": {
       swr: 60 * 60,
     },

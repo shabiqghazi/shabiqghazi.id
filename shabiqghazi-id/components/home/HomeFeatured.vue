@@ -26,9 +26,7 @@
           Halo, saya<br />
           <strong class="font-extrabold"> Shabiq Ghazi Arkaan </strong>
         </p>
-        <p class="text-xl font-light italic">
-          Quiet observer. Long-life learner
-        </p>
+        <p class="text-xl font-light italic">Long-life learner</p>
         <div>
           <NuxtLink href="/contact" class="">
             <Button
@@ -48,5 +46,5 @@
 
 <script setup lang="ts">
 import { ArrowRight } from "lucide-vue-next";
-import featuredImage from "~/assets/images/hero-img.png";
+import featuredImage from "~/assets/images/hero-img.webp";
 </script>

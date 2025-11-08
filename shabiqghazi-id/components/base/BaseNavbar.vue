@@ -33,10 +33,10 @@
           </button>
         </div>
         <NuxtLink to="/" class="nav-link">Home</NuxtLink>
-        <NuxtLink to="/about" class="nav-link">Tentang</NuxtLink>
+        <NuxtLink to="/about" class="nav-link" prefetch>Tentang</NuxtLink>
         <NuxtLink to="/articles" class="nav-link">Artikel</NuxtLink>
         <NuxtLink to="/gallery" class="nav-link">Galeri</NuxtLink>
-        <NuxtLink to="/contact" class="nav-link">Kontak</NuxtLink>
+        <NuxtLink to="/contact" class="nav-link" prefetch>Kontak</NuxtLink>
       </div>
     </nav>
   </div>
