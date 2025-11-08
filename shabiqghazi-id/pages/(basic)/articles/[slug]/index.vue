@@ -7,7 +7,7 @@
         <div class="categories text-xs flex gap-4 items-center justify-between">
           <p class="flex items-center gap-2">
             <CalendarDays :size="10" />
-            <span>{{ formatDateHumanize(article?.publishedAt ?? "") }}</span>
+            <span>{{ formatDateHumanize(article?.createdAt ?? "") }}</span>
           </p>
           <Badge
             variant="secondary"
@@ -53,9 +53,13 @@ const { setArticleSeo } = useSeo();
 
 const { slug } = params;
 
-const { data, pending } = await useFetch<IStrapiArticle>(
-  `/api/articles/${slug}`
-);
+const { data, pending } = useFetch<IStrapiArticle>(`/api/articles/${slug}`, {
+  key: `article-detail-${slug}`,
+  lazy: true,
+  server: true,
+  getCachedData: (key) =>
+    useNuxtApp().payload.data[key] || useNuxtApp().static.data[key],
+});
 
 const article = computed(() => {
   return data.value;

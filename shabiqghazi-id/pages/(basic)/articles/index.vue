@@ -89,17 +89,21 @@ const fetchParams = computed(() => ({
   search: route.query.search,
 }));
 
-const { data, pending, refresh } = await useFetch<
-  IStrapiCollectionResponse<IStrapiArticle>
->(`/api/articles`, {
-  query: fetchParams,
-  key: `articles-list-page:${fetchParams.value.page}-pageSize:${fetchParams.value.pageSize}-search:${fetchParams.value.search}`,
-});
+const { data, pending } = useFetch<IStrapiCollectionResponse<IStrapiArticle>>(
+  `/api/articles`,
+  {
+    query: fetchParams,
+    key: `articles-list-page:${fetchParams.value.page}-pageSize:${fetchParams.value.pageSize}-search:${fetchParams.value.search}`,
+    lazy: true,
+    server: true,
+    getCachedData: (key) =>
+      useNuxtApp().payload.data[key] || useNuxtApp().static.data[key],
+  }
+);
 
 // Handle pagination dengan refresh manual
 const handlePageChange = async (page: number) => {
   await router.push(`?page=${page}`);
-  await refresh(); // refresh data setelah route berubah
 };
 
 const articles = computed(() => data.value?.data ?? []);

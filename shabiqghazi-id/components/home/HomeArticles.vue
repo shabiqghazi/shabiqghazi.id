@@ -26,10 +26,14 @@
 import type { IStrapiCollectionResponse } from "~/types/strapi";
 import type { IStrapiArticle } from "~/types/strapi-article";
 
-const { data } = await useFetch<IStrapiCollectionResponse<IStrapiArticle>>(
+const { data } = useFetch<IStrapiCollectionResponse<IStrapiArticle>>(
   `/api/articles/latest`,
   {
     key: "latest-article",
+    lazy: true,
+    server: true,
+    getCachedData: (key) =>
+      useNuxtApp().payload.data[key] || useNuxtApp().static.data[key],
   }
 );
 

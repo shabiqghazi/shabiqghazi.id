@@ -8,6 +8,38 @@ export default defineNuxtConfig({
 
   ssr: true,
 
+  routeRules: {
+    // List artikel - cache 5 menit dengan SWR
+    "/articles": {
+      swr: 60 * 5, // 5 menit
+      // Alternatif: isr untuk revalidate on-demand
+      // isr: 60 * 5,
+    },
+
+    // Detail artikel - cache lebih lama karena jarang berubah
+    "/articles/**": {
+      swr: 60 * 60, // 1 jam
+    },
+
+    // API routes juga bisa di-cache
+    "/api/articles": {
+      swr: 60 * 5, // Cache API 5 menit
+    },
+
+    "/api/articles/**": {
+      swr: 60 * 60, // Cache detail artikel 1 jam
+    },
+
+    // Static pages
+    "/": {
+      prerender: true, // Homepage di-prerender
+    },
+
+    "/about": {
+      prerender: true,
+    },
+  },
+
   modules: [
     "@nuxt/image",
     "@nuxt/fonts",
@@ -40,7 +72,7 @@ export default defineNuxtConfig({
   },
 
   experimental: {
-    payloadExtraction: false,
+    payloadExtraction: true,
   },
 
   sitemap: {

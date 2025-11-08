@@ -14,7 +14,7 @@
         . Baik untuk diriku sendiri maupun untuk lingkungan tempat aku tumbuh.
       </p>
       <div>
-        <NuxtLink href="/about">
+        <NuxtLink href="/about" prefetch>
           <Button
             variant="default"
             size="lg"

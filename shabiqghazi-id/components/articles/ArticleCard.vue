@@ -12,7 +12,7 @@
         <p class="text-xs flex items-center gap-2">
           <CalendarDays :size="10" />
           <span>
-            {{ formatDateHumanize(props.article.publishedAt) }}
+            {{ formatDateHumanize(props.article.createdAt) }}
           </span>
         </p>
         <NuxtLink :href="`/articles/${props.article.slug}`">

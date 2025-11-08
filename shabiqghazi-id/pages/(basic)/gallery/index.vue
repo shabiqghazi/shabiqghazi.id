@@ -95,8 +95,14 @@ watchOnce(emblaMainApi, (emblaMainApi) => {
   emblaMainApi.on("reInit", onSelect);
 });
 
-const { data } = await useFetch<IStrapiCollectionResponse<IStrapiPhoto>>(
-  `/api/photos`
+const { data } = useFetch<IStrapiCollectionResponse<IStrapiPhoto>>(
+  `/api/photos`,
+  {
+    lazy: true,
+    server: true,
+    getCachedData: (key) =>
+      useNuxtApp().payload.data[key] || useNuxtApp().static.data[key],
+  }
 );
 
 const photos = computed(() => data.value?.data ?? []);

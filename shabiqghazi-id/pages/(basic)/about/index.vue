@@ -20,7 +20,12 @@ import type { IStrapiAbout } from "~/types/strapi-about";
 const { getMediaUrl } = useStrapi();
 const { setBreadcrumbs, setPageTitle } = useBreadcrumb();
 
-const { data } = await useFetch<IStrapiAbout>("/api/about");
+const { data } = useFetch<IStrapiAbout>("/api/about", {
+  lazy: true,
+  server: true,
+  getCachedData: (key) =>
+    useNuxtApp().payload.data[key] || useNuxtApp().static.data[key],
+});
 
 const about = computed(() => {
   return data.value;
@@ -40,7 +45,7 @@ setBreadcrumbs([
 
 // SEO Meta
 useSeoMeta({
-  title: () => about.value?.seo?.metaTitle,
+  title: () => about.value?.title,
   ogTitle: () => about.value?.seo?.metaTitle,
   description: () => about.value?.seo?.metaDescription || "Read this about",
   ogImage: () =>
