@@ -13,7 +13,7 @@
         class="flex flex-col md:max-w-3xl lg:max-w-4xl xl:max-w-7xl w-full md:items-start items-center z-10 gap-4"
       >
         <h2
-          class="text-2xl font-bold z-10 text-neutral-200 md:text-neutral-800"
+          class="text-2xl font-bold z-10 text-neutral-200 md:text-neutral-800 text-center md:text-left"
         >
           {{ props.pageTitle }}
         </h2>

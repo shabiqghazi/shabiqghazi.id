@@ -135,7 +135,9 @@ setSeoData({
   breadcrumbs: baseBreadcrumbs,
 });
 setPageTitle("Artikel");
-setBreadcrumbs(breadcrumbs.value);
+watchEffect(() => {
+  setBreadcrumbs(breadcrumbs.value);
+});
 
 definePageMeta({
   layout: "basic",

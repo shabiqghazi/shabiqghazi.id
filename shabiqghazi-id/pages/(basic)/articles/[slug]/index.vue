@@ -73,7 +73,9 @@ const breadcrumbs = computed(() => [
   },
 ]);
 setArticleSeo(data.value, breadcrumbs.value);
-setBreadcrumbs(breadcrumbs.value);
+watchEffect(() => {
+  setBreadcrumbs(breadcrumbs.value);
+});
 
 // 404 if article not found
 if (!pending.value && !article.value) {
