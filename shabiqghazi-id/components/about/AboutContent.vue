@@ -19,6 +19,7 @@
           :srcset="getMediaUrl((block as IStrapiImageBlock).file.url)"
           :alt="(block as IStrapiImageBlock).file.alternativeText"
           loading="lazy"
+          format="webp"
           class="aspect-square object-cover"
           :height="(block as IStrapiImageBlock).file.height"
           :width="(block as IStrapiImageBlock).file.width"

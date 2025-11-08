@@ -30,13 +30,12 @@ export default defineNuxtConfig({
       swr: 60 * 60, // Cache detail artikel 1 jam
     },
 
-    // Static pages
     "/": {
-      prerender: true, // Homepage di-prerender
+      swr: 60 * 60,
     },
 
     "/about": {
-      prerender: true,
+      swr: 60 * 60,
     },
   },
 
