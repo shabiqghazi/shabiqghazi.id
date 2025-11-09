@@ -1,6 +1,9 @@
 <template>
-  <section id="footer" class="py-20 md:px-20 px-5 bg-neutral-800 text-white">
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+  <footer
+    id="footer"
+    class="md:px-20 px-5 bg-neutral-800 text-white flex flex-col w-full"
+  >
+    <div class="py-20 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
       <div class="flex flex-col items-start gap-4">
         <div class="font-light text-xl">
           <NuxtLink href="/">
@@ -55,7 +58,13 @@
         </div>
       </div>
     </div>
-  </section>
+    <div
+      class="w-full py-5 text-center border-t border-neutral-700 text-sm text-neutral-400"
+    >
+      Copyright &copy; {{ new Date().getFullYear() }} Shabiq Ghazi Arkaan. All
+      rights reserved.
+    </div>
+  </footer>
 </template>
 
 <script lang="ts" setup>

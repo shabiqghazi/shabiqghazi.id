@@ -26,7 +26,7 @@
           Halo, saya<br />
           <strong class="font-extrabold"> Shabiq Ghazi Arkaan </strong>
         </p>
-        <p class="text-xl font-light italic">Long-life learner</p>
+        <p class="text-xl font-light italic">📖Belajar 🤔Merenung ✍️Menulis</p>
         <div>
           <NuxtLink href="/contact" class="">
             <Button

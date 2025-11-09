@@ -14,7 +14,9 @@
         >
       </div>
       <button
+        type="button"
         id="open-sidebar"
+        aria-label="Buka sidebar"
         class="md:hidden hover:bg-neutral-200 p-1 hover:cursor-pointer active:bg-neutral-300"
       >
         <Menu @click="navOpen = true" />
@@ -26,17 +28,25 @@
       >
         <div class="flex justify-end items-center h-20 md:hidden">
           <button
+            type="button"
             id="close-sidebar"
+            aria-label="Tutup sidebar"
             class="hover:bg-neutral-200 p-1 hover:cursor-pointer active:bg-neutral-300"
           >
             <X @click="navOpen = false" />
           </button>
         </div>
-        <NuxtLink to="/" class="nav-link">Home</NuxtLink>
-        <NuxtLink to="/about" class="nav-link" prefetch>Tentang</NuxtLink>
-        <NuxtLink to="/articles" class="nav-link">Artikel</NuxtLink>
-        <NuxtLink to="/gallery" class="nav-link">Galeri</NuxtLink>
-        <NuxtLink to="/contact" class="nav-link" prefetch>Kontak</NuxtLink>
+        <NuxtLink to="/" class="hover:text-green-500">Beranda</NuxtLink>
+        <NuxtLink to="/about" class="hover:text-green-500" prefetch>
+          Tentang
+        </NuxtLink>
+        <NuxtLink to="/articles" class="hover:text-green-500">Artikel</NuxtLink>
+        <NuxtLink to="/gallery" class="hover:text-green-500">Galeri</NuxtLink>
+        <NuxtLink to="/contact" class="hover:text-green-500" prefetch>
+          <Button class="flex bg-black hover:cursor-pointer hover:bg-green-400">
+            Hubungi Saya
+          </Button>
+        </NuxtLink>
       </div>
     </nav>
   </div>

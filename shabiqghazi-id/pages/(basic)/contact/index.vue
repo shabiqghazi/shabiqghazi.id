@@ -87,7 +87,7 @@
           </div>
         </form>
         <div class="hidden md:block">
-          <img :src="contactImg" alt="Contact Us" />
+          <img :src="contactImg" alt="Contact Me" />
         </div>
       </div>
     </section>
@@ -102,6 +102,7 @@ import { useReCaptcha } from "vue-recaptcha-v3";
 import { Instagram, Linkedin, Mail } from "lucide-vue-next";
 
 const { setBreadcrumbs, setPageTitle } = useBreadcrumb();
+const { setSeoData } = useSeo();
 const errorMessage = ref<string | null>(null);
 const submissionMessage = ref<string | null>(null);
 const formValue = reactive({
@@ -164,10 +165,16 @@ const submitForm = async () => {
 
 const breadcrumbs = [
   { title: "Beranda", route: "/" },
-  { title: "Kontak", route: "/contact" },
+  { title: "Hubungi Saya", route: "/contact" },
 ];
 
-setPageTitle("Kontak");
+setSeoData({
+  title: "Hubungi Saya | Shabiq Ghazi Arkaan's Blog",
+  description:
+    "Daftar artikel terbaru tentang teknologi, edukasi, pengalaman, dan lainnya di blog pribadi Shabiq Ghazi Arkaan.",
+  breadcrumbs: breadcrumbs,
+});
+setPageTitle("Hubungi Saya");
 setBreadcrumbs(breadcrumbs);
 
 definePageMeta({
