@@ -13,6 +13,7 @@
           <img
             :src="featuredImage"
             alt=""
+            fetchpriority="high"
             class="w-72 md:w-72 lg:w-96 h-72 md:h-72 lg:h-96 rounded-full"
           />
         </figure>
