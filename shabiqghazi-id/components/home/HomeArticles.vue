@@ -3,7 +3,9 @@
     <div
       class="md:max-w-3xl lg:max-w-4xl xl:max-w-7xl w-full flex flex-col items-center gap-20 justify-center"
     >
-      <h2 class="font-bold text-4xl text-center">Artikel Terbaru</h2>
+      <h2 class="font-bold text-4xl text-center" data-aos="fade-up">
+        Artikel Terbaru
+      </h2>
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
         <template v-for="article in articles" :key="article.id">
           <HomeArticleCard :article="article" />

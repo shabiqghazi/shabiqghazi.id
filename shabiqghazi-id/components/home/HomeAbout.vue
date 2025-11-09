@@ -3,7 +3,7 @@
     class="bg-neutral-800 grid grid-cols-1 lg:grid-cols-2 items-center px-5 lg:pl-20 lg:pr-0 gap-20 relative overflow-clip py-32 lg:py-0"
   >
     <div class="flex flex-col lg:pb-0 gap-8 font-light z-10 text-white">
-      <p class="leading-loose">
+      <p class="leading-loose" data-aos="fade-up">
         Aku suka <strong class="font-semibold">memperhatikan</strong> segala
         hal,
         <strong class="font-semibold">merenungkan alam semesta</strong> dari
@@ -25,7 +25,7 @@
       </p>
 
       <div>
-        <NuxtLink href="/about" prefetch>
+        <NuxtLink href="/about" prefetch data-aos="fade-up">
           <Button
             variant="default"
             size="lg"

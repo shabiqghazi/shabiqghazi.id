@@ -1,5 +1,8 @@
 <template>
-  <Card class="py-0 overflow-clip border-0 shadow flex flex-row gap-3 h-full">
+  <Card
+    class="py-0 overflow-clip border-0 shadow flex flex-row gap-3 h-full"
+    data-aos="fade-up"
+  >
     <NuxtImg
       :src="getMediaUrl(props.article.cover.url)"
       :srcset="getStrapiSrcSet(props.article.cover.formats)"

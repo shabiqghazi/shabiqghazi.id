@@ -54,7 +54,10 @@ export default defineNuxtConfig({
     smtpPass: process.env.SMTP_PASS,
   },
 
-  plugins: [{ src: "~/plugins/vue-recaptcha-v3.client.ts", mode: "client" }],
+  plugins: [
+    { src: "~/plugins/vue-recaptcha-v3.client.ts", mode: "client" },
+    { src: "~/plugins/aos.client.ts", mode: "client" },
+  ],
 
   nitro: {
     preset: "node-server",
