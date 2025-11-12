@@ -47,7 +47,7 @@ import { formatDateHumanize } from "~/utilities/data.util";
 
 const { params } = useRoute();
 const { getMediaUrl, getStrapiSrcSet } = useStrapi();
-const { setBreadcrumbs } = useBreadcrumb();
+const { setBreadcrumbs, setPageTitle } = useBreadcrumb();
 
 const { setArticleSeo } = useSeo();
 
@@ -74,6 +74,7 @@ const breadcrumbs = computed(() => [
 ]);
 setArticleSeo(data.value, breadcrumbs.value);
 watchEffect(() => {
+  setPageTitle(data.value?.title);
   setBreadcrumbs(breadcrumbs.value);
 });
 

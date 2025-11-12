@@ -1,8 +1,10 @@
 <template>
   <div
-    class="bg-neutral-800 grid grid-cols-1 lg:grid-cols-2 items-center px-5 lg:pl-20 lg:pr-0 gap-20 relative overflow-clip py-32 lg:py-0"
+    class="bg-neutral-800 grid grid-cols-1 lg:grid-cols-2 items-center relative overflow-clip py-32 lg:py-0"
   >
-    <div class="flex flex-col lg:pb-0 gap-8 font-light z-10 text-white">
+    <div
+      class="flex flex-col lg:pb-0 gap-8 font-light z-10 text-white lg:px-20 px-5"
+    >
       <p class="leading-loose" data-aos="fade-up">
         Aku suka <strong class="font-semibold">memperhatikan</strong> segala
         hal,
@@ -11,45 +13,61 @@
         <strong class="font-semibold">partikel subatomik</strong> hingga seluas
         <strong class="font-semibold">galaksi</strong>, mencari jawaban atas
         pertanyaan-pertanyaan terkait
-        <strong class="font-semibold">arti kehadiran manusia</strong>
+        <strong class="font-semibold">arti kehadiran manusia di </strong>
         <span
           class="tooltip"
           data-tooltip="Tepi Lautan Kosmik - Konsep yang diperkenalkan oleh Carl Sagan untuk menggambarkan posisi kita dalam alam semesta yang luas dan tak terbatas."
         >
-          di tepi <strong class="font-semibold">lautan kosmik</strong>
+          tepi <strong class="font-semibold">lautan kosmik</strong>
         </span>
-        yang luas dan kosong ini. Blog ini adalah catatan
-        <strong class="font-semibold">perjalanan panjangku</strong> dalam usaha
-        untuk menemukan
-        <strong class="font-semibold">jawaban-jawaban</strong> itu.
+        yang luas dan kosong ini.
       </p>
-
-      <div>
-        <NuxtLink href="/about" prefetch data-aos="fade-up">
-          <Button
-            variant="default"
-            size="lg"
-            class="flex gap-2 hover:gap-3 bg-white text-black hover:cursor-pointer hover:bg-green-300 hover:text-black border border-neutral-300 transition-all duration-200"
-          >
-            <span>Selengkapnya</span>
-          </Button>
-        </NuxtLink>
-      </div>
     </div>
     <figure
-      class="absolute lg:static right-0 bottom-0 top-0 left-0 flex flex-col items-center lg:aspect-square"
+      class="absolute lg:static right-0 bottom-0 top-0 left-0 flex flex-col items-center lg:aspect-[5/4]"
     >
       <img
-        :src="homeAbout"
+        :src="homeAbout2"
         alt=""
         class="w-full h-full object-cover brightness-50 lg:brightness-50"
       />
     </figure>
   </div>
+  <div
+    class="bg-neutral-800 grid grid-cols-1 lg:grid-cols-2 items-center relative overflow-clip py-32 lg:py-0"
+  >
+    <figure
+      class="absolute lg:static right-0 bottom-0 top-0 left-0 flex flex-col items-center lg:aspect-[5/4]"
+    >
+      <img
+        :src="homeAbout1"
+        alt=""
+        class="w-full h-full object-cover brightness-50 lg:brightness-50"
+      />
+    </figure>
+    <div
+      class="flex flex-col lg:pb-0 gap-8 font-light z-10 text-white lg:px-20 px-5"
+    >
+      <p class="leading-loose" data-aos="fade-up">
+        Menjadi <strong class="font-semibold">sendirian</strong> adalah
+        <strong class="font-semibold">energiku</strong>. Terkadang, untuk
+        <strong class="font-semibold">memahami alam semesta</strong>, kita perlu
+        <strong class="font-semibold">menjauh dari keramaian</strong>, mencoba
+        <strong class="font-semibold">menyendiri</strong> dalam
+        <strong class="font-semibold">keheningan</strong> untuk mendengar
+        <strong class="font-semibold">bisikannya</strong>, yang memberitahukan
+        <strong class="font-semibold">jawaban</strong> atas mengapa di tengah
+        <strong class="font-semibold">alam yang luas</strong> ini
+        <strong class="font-semibold">manusia</strong> hadir sebagai
+        <strong class="font-semibold">makhluk yang sangat kecil</strong>.
+      </p>
+    </div>
+  </div>
 </template>
 
 <script lang="ts" setup>
-import homeAbout from "~/assets/images/home-about2.webp";
+import homeAbout1 from "~/assets/images/home-about2.webp";
+import homeAbout2 from "~/assets/images/home-about3.webp";
 </script>
 
 <style>
