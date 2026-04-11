@@ -9,6 +9,7 @@ export default defineNuxtConfig({
   ssr: true,
 
   routeRules: {
+    "/admin/**": { ssr: false },
     "/articles": {
       swr: 60 * 5,
     },
@@ -41,11 +42,16 @@ export default defineNuxtConfig({
   css: ["~/assets/css/main.css"],
 
   runtimeConfig: {
+    supabaseUrl:
+      process.env.SUPABASE_URL || process.env.NUXT_PUBLIC_SUPABASE_URL,
+    supabaseServiceKey: process.env.SUPABASE_SERVICE_ROLE_KEY,
     public: {
       apiMediaURL: process.env.API_MEDIA_URL,
       apiBaseURL: process.env.API_BASE_URL,
       siteURL: process.env.SITE_URL,
       captchaSiteKey: process.env.NUXT_PUBLIC_CAPTCHA_SITE_KEY,
+      supabaseUrl: process.env.NUXT_PUBLIC_SUPABASE_URL,
+      supabaseAnonKey: process.env.NUXT_PUBLIC_SUPABASE_ANON_KEY,
     },
     captchaSecretKey: process.env.CAPTCHA_SECRET_KEY,
     smtpHost: process.env.SMTP_HOST,

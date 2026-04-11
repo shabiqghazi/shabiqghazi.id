@@ -1,7 +1,7 @@
 <template>
   <Card class="py-0 overflow-clip border-0 shadow flex flex-row gap-0 h-full">
     <NuxtImg
-      v-if="props.article.cover.url"
+      v-if="props.article.cover?.url"
       class="h-24 aspect-square object-cover"
       :src="getMediaUrl(props.article.cover.url)"
       :srcset="getStrapiSrcSet(props.article.cover.formats)"
@@ -25,14 +25,14 @@
 </template>
 <script setup lang="ts">
 import Card from "../ui/card/Card.vue";
-import type { IStrapiArticle } from "~/types/strapi-article";
+import type { IBlogArticle } from "~/types/blog";
 import { formatDateHumanize } from "~/utilities/data.util";
 import { CalendarDays } from "lucide-vue-next";
 
-const { getMediaUrl, getStrapiSrcSet } = useStrapi();
+const { getMediaUrl, getStrapiSrcSet } = useMedia();
 
 interface Props {
-  article: IStrapiArticle;
+  article: IBlogArticle;
 }
 
 const props = defineProps<Props>();

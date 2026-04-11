@@ -74,8 +74,7 @@
 <script setup lang="ts">
 import { Search } from "lucide-vue-next";
 import ArticleCard from "~/components/articles/ArticleCard.vue";
-import type { IStrapiCollectionResponse } from "~/types/strapi";
-import type { IStrapiArticle } from "~/types/strapi-article";
+import type { IBlogArticle, IBlogArticleCollection } from "~/types/blog";
 import NotFoundImg from "~/assets/images/not-found.svg";
 import { Skeleton } from "~/components/ui/skeleton";
 
@@ -90,7 +89,7 @@ const fetchParams = computed(() => ({
   search: route.query.search,
 }));
 
-const { data, pending } = useFetch<IStrapiCollectionResponse<IStrapiArticle>>(
+const { data, pending } = useFetch<IBlogArticleCollection>(
   `/api/articles`,
   {
     query: fetchParams,

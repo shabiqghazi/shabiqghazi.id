@@ -1,26 +1,26 @@
-import { getHttpClient } from "~/lib/httpClient";
-import { IStrapiCollectionResponse } from "~/types/strapi";
-import { IStrapiArticle } from "~/types/strapi-article";
-
 export default defineSitemapEventHandler(async () => {
-  const httpClient = getHttpClient();
   const config = useRuntimeConfig();
+  const supabase = useSupabaseAdmin();
 
-  const { data: articles } = await httpClient<
-    IStrapiCollectionResponse<IStrapiArticle>
-  >("/articles", {
-    query: {
-      fields: ["title", "slug", "updatedAt"],
-      sort: "publishedAt:asc",
-    },
-  });
+  const { data: articles, error } = await supabase
+    .from("articles")
+    .select("slug, updated_at")
+    .eq("status", "published")
+    .not("published_at", "is", null)
+    .lte("published_at", new Date().toISOString())
+    .order("published_at", { ascending: true });
 
-  const mappedArticles =
+  if (error) {
+    console.error("[sitemap] articles", error.message);
+    return [];
+  }
+
+  const base = config.public.siteURL ?? "";
+  return (
     articles?.map((item) => ({
-      loc: `${config.public.siteURL}/articles/${item.slug}`,
+      loc: `${base}/articles/${item.slug}`,
       _sitemap: "articles",
-      lastmod: item.updatedAt,
-    })) ?? [];
-
-  return mappedArticles;
+      lastmod: item.updated_at,
+    })) ?? []
+  );
 });

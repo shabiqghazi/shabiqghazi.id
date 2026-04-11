@@ -11,6 +11,6 @@ export interface IBaseParams {
 
 export interface IBaseResponse {
   data: Any;
-  error?: IStrapiError;
-  meta?: IStrapiMeta;
+  error?: { message?: string };
+  meta?: { pagination?: unknown };
 }

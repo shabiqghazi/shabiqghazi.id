@@ -22,6 +22,7 @@
                   <Card class="p-0 overflow-clip">
                     <CardContent class="flex items-center justify-center p-0">
                       <NuxtImg
+                        v-if="photo.media.url"
                         :src="getMediaUrl(photo.media.url)"
                         :srcset="getStrapiSrcSet(photo.media.formats)"
                         :alt="photo.title"
@@ -44,6 +45,7 @@
         <div class="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4">
           <template v-for="photo in photos" :key="photo.id">
             <NuxtImg
+              v-if="photo.media.url"
               :src="getMediaUrl(photo.media.url)"
               :srcset="getStrapiSrcSet(photo.media.formats)"
               :alt="photo.title"
@@ -70,13 +72,11 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import Autoplay from "embla-carousel-autoplay";
-import type { IStrapiPhoto } from "~/types/strapi-photo";
-import type { IStrapiCollectionResponse } from "~/types/strapi";
+import type { IBlogPhotoCollection } from "~/types/blog";
 
 const { setBreadcrumbs, setPageTitle } = useBreadcrumb();
 const { setSeoData } = useSeo();
-
-const { getMediaUrl, getStrapiSrcSet } = useStrapi();
+const { getMediaUrl, getStrapiSrcSet } = useMedia();
 
 const emblaMainApi = ref<CarouselApi>();
 const emblaThumbnailApi = ref<CarouselApi>();
@@ -88,23 +88,20 @@ function onSelect() {
   emblaThumbnailApi.value.scrollTo(emblaMainApi.value.selectedScrollSnap());
 }
 
-watchOnce(emblaMainApi, (emblaMainApi) => {
-  if (!emblaMainApi) return;
+watchOnce(emblaMainApi, (api) => {
+  if (!api) return;
 
   onSelect();
-  emblaMainApi.on("select", onSelect);
-  emblaMainApi.on("reInit", onSelect);
+  api.on("select", onSelect);
+  api.on("reInit", onSelect);
 });
 
-const { data } = useFetch<IStrapiCollectionResponse<IStrapiPhoto>>(
-  `/api/photos`,
-  {
-    lazy: true,
-    server: true,
-    getCachedData: (key) =>
-      useNuxtApp().payload.data[key] || useNuxtApp().static.data[key],
-  }
-);
+const { data } = useFetch<IBlogPhotoCollection>(`/api/photos`, {
+  lazy: true,
+  server: true,
+  getCachedData: (key) =>
+    useNuxtApp().payload.data[key] || useNuxtApp().static.data[key],
+});
 
 const photos = computed(() => data.value?.data ?? []);
 

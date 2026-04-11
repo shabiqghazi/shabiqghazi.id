@@ -39,12 +39,11 @@
 <script lang="ts" setup>
 import { Search } from "lucide-vue-next";
 import { Input } from "../ui/input";
-import type { IStrapiCollectionResponse } from "~/types/strapi";
-import type { IStrapiArticle } from "~/types/strapi-article";
+import type { IBlogArticleCollection } from "~/types/blog";
 
 const search = ref<string>("");
 
-const { data } = useFetch<IStrapiCollectionResponse<IStrapiArticle>>(
+const { data } = useFetch<IBlogArticleCollection>(
   `/api/articles/latest`,
   {
     key: "latest-article",

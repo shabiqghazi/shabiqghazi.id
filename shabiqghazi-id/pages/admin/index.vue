@@ -1,0 +1,11 @@
+<template>
+  <div />
+</template>
+
+<script setup lang="ts">
+definePageMeta({
+  layout: "admin",
+});
+
+await navigateTo("/admin/articles", { replace: true });
+</script>

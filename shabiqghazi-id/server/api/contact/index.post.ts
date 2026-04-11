@@ -1,5 +1,4 @@
 import { defineEventHandler, readBody } from "h3";
-import { getHttpClient } from "~/lib/httpClient";
 import nodemailer from "nodemailer";
 
 type RecaptchaResponse = {
@@ -9,10 +8,9 @@ type RecaptchaResponse = {
 export default defineEventHandler(async (event) => {
   const body = await readBody(event);
   const config = useRuntimeConfig();
-  const httpClient = getHttpClient();
 
   // Verifikasi reCAPTCHA
-  const res = await httpClient<RecaptchaResponse>(
+  const res = await $fetch<RecaptchaResponse>(
     "https://www.google.com/recaptcha/api/siteverify",
     {
       method: "POST",

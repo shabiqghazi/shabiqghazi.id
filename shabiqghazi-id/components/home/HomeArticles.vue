@@ -25,10 +25,9 @@
 </template>
 
 <script lang="ts" setup>
-import type { IStrapiCollectionResponse } from "~/types/strapi";
-import type { IStrapiArticle } from "~/types/strapi-article";
+import type { IBlogArticleCollection } from "~/types/blog";
 
-const { data } = useFetch<IStrapiCollectionResponse<IStrapiArticle>>(
+const { data } = useFetch<IBlogArticleCollection>(
   `/api/articles/latest`,
   {
     key: "latest-article",

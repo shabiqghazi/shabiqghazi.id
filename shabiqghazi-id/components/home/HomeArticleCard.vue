@@ -4,6 +4,7 @@
     data-aos="fade-up"
   >
     <NuxtImg
+      v-if="props.article.cover?.url"
       :src="getMediaUrl(props.article.cover.url)"
       :srcset="getStrapiSrcSet(props.article.cover.formats)"
       :alt="props.article.title"
@@ -25,7 +26,7 @@
         </NuxtLink>
         <p
           class="text-sm md:line-clamp-3 line-clamp-2"
-          v-clean-html-tag="props.article.body"
+          v-clean-html-tag="excerpt"
         ></p>
       </CardContent>
       <CardFooter class="px-0 pt-0 pb-3">
@@ -48,16 +49,24 @@ import Card from "../ui/card/Card.vue";
 import CardFooter from "../ui/card/CardFooter.vue";
 import Button from "../ui/button/Button.vue";
 import { ArrowRight, CalendarDays } from "lucide-vue-next";
-import type { IStrapiArticle } from "~/types/strapi-article";
+import type { IBlogArticle } from "~/types/blog";
+import { editorJsToPlainText } from "~/utilities/editorjs.util";
 import { formatDateHumanize } from "~/utilities/data.util";
 
-const { getMediaUrl, getStrapiSrcSet } = useStrapi();
+const { getMediaUrl, getStrapiSrcSet } = useMedia();
 
 interface IProps {
-  article: IStrapiArticle;
+  article: IBlogArticle;
 }
 
 const props = defineProps<IProps>();
+
+const excerpt = computed(
+  () =>
+    props.article.description?.trim() ||
+    editorJsToPlainText(props.article.body) ||
+    ""
+);
 </script>
 
 <style></style>

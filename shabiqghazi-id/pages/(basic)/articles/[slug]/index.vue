@@ -21,16 +21,13 @@
           {{ article?.title }}
         </h1>
         <NuxtImg
-          v-if="article?.cover.url"
+          v-if="article?.cover?.url"
           :src="getMediaUrl(article.cover.url)"
           :srcset="getStrapiSrcSet(article.cover.formats)"
-          :alt="article.title"
+          :alt="article?.title ?? ''"
           loading="lazy"
         />
-        <div
-          class="[&>p]:mb-4 ck-content !leading-loose"
-          v-sanitize-html="article?.body"
-        />
+        <EditorJsRenderer :data="article?.body" />
       </article>
       <div class="flex flex-col">
         <BaseSidebar />
@@ -42,49 +39,46 @@
 <script setup lang="ts">
 import { CalendarDays, Tag } from "lucide-vue-next";
 import Badge from "~/components/ui/badge/Badge.vue";
-import type { IStrapiArticle } from "~/types/strapi-article";
+import EditorJsRenderer from "~/components/editor/EditorJsRenderer.vue";
+import type { IBlogArticle } from "~/types/blog";
 import { formatDateHumanize } from "~/utilities/data.util";
 
 const { params } = useRoute();
-const { getMediaUrl, getStrapiSrcSet } = useStrapi();
+const { getMediaUrl, getStrapiSrcSet } = useMedia();
 const { setBreadcrumbs, setPageTitle } = useBreadcrumb();
-
 const { setArticleSeo } = useSeo();
 
 const { slug } = params;
 
-const { data, pending } = useFetch<IStrapiArticle>(`/api/articles/${slug}`, {
-  key: `article-detail-${slug}`,
-  lazy: true,
-  server: true,
-  getCachedData: (key) =>
-    useNuxtApp().payload.data[key] || useNuxtApp().static.data[key],
-});
+const { data: article, error } = await useAsyncData<IBlogArticle | null>(
+  `article-detail-${slug}`,
+  () => $fetch<IBlogArticle>(`/api/articles/${slug}`),
+  { watch: [() => slug] }
+);
 
-const article = computed(() => {
-  return data.value;
-});
-const breadcrumbs = computed(() => [
-  { title: "Beranda", route: "/" },
-  { title: "Artikel", route: "/articles" },
-  {
-    title: data.value?.title ?? "",
-    route: data.value?.slug ? `/articles/${data.value?.slug}` : "/",
-  },
-]);
-setArticleSeo(data.value, breadcrumbs.value);
-watchEffect(() => {
-  setPageTitle(data.value?.title);
-  setBreadcrumbs(breadcrumbs.value);
-});
-
-// 404 if article not found
-if (!pending.value && !article.value) {
+if (error.value || !article.value) {
   throw createError({
     statusCode: 404,
     statusMessage: "Article not found",
   });
 }
+
+const breadcrumbs = computed(() => [
+  { title: "Beranda", route: "/" },
+  { title: "Artikel", route: "/articles" },
+  {
+    title: article.value?.title ?? "",
+    route: article.value?.slug ? `/articles/${article.value.slug}` : "/",
+  },
+]);
+
+watchEffect(() => {
+  const a = article.value;
+  if (!a) return;
+  setArticleSeo(a, breadcrumbs.value);
+  setPageTitle(a.title);
+  setBreadcrumbs(breadcrumbs.value);
+});
 
 definePageMeta({
   layout: "basic",

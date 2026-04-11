@@ -15,11 +15,11 @@
         <h2
           class="text-2xl font-bold z-10 text-neutral-200 md:text-neutral-800 text-center md:text-left"
         >
-          {{ props.pageTitle }}
+          {{ props?.pageTitle }}
         </h2>
         <Breadcrumb class="flex flex-wrap justify-center gap-2 z-10">
           <BreadcrumbList
-            v-for="(page, index) in props.pageBreadcrumbs"
+            v-for="(page, index) in props?.pageBreadcrumbs"
             :key="page?.route ?? index"
           >
             <BreadcrumbItem>
@@ -30,7 +30,7 @@
                 {{ page.title }}
               </NuxtLink>
               <BreadcrumbSeparator
-                v-if="index !== props.pageBreadcrumbs.length - 1"
+                v-if="index !== props?.pageBreadcrumbs.length - 1"
                 class="text-neutral-200 md:text-neutral-700"
               >
                 <Slash />

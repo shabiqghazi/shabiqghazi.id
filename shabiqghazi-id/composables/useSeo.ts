@@ -1,4 +1,4 @@
-import type { IStrapiArticle } from "~/types/strapi-article";
+import type { IBlogArticle } from "~/types/blog";
 
 interface ISEOParam {
   title?: string;
@@ -66,7 +66,7 @@ export const useSeo = () => {
   };
 
   const setArticleSeo = (
-    article: IStrapiArticle | null,
+    article: IBlogArticle | null,
     breadcrumbs: IBreadcrumb[]
   ) => {
     setSeoData({

@@ -7,20 +7,20 @@
         <h1 class="text-2xl font-bold text-center">
           {{ data?.title }}
         </h1>
-        <AboutContent :blocks="data?.blocks" />
+        <EditorJsRenderer :data="data?.content" />
       </article>
     </section>
   </main>
 </template>
 
 <script setup lang="ts">
-import AboutContent from "~/components/about/AboutContent.vue";
-import type { IStrapiAbout } from "~/types/strapi-about";
+import EditorJsRenderer from "~/components/editor/EditorJsRenderer.vue";
+import type { IBlogAbout } from "~/types/blog";
 
-const { getMediaUrl } = useStrapi();
+const { getMediaUrl } = useMedia();
 const { setBreadcrumbs, setPageTitle } = useBreadcrumb();
 
-const { data } = useFetch<IStrapiAbout>("/api/about", {
+const { data } = useFetch<IBlogAbout>("/api/about", {
   lazy: true,
   server: true,
   getCachedData: (key) =>
@@ -43,14 +43,14 @@ setBreadcrumbs([
   },
 ]);
 
-// SEO Meta
 useSeoMeta({
   title: () => about.value?.title,
-  ogTitle: () => about.value?.seo?.metaTitle,
-  description: () => about.value?.seo?.metaDescription || "Read this about",
+  ogTitle: () => about.value?.seo?.metaTitle ?? about.value?.title,
+  description: () =>
+    about.value?.seo?.metaDescription || "Read this about",
   ogImage: () =>
     about.value?.seo?.shareImage?.url
-      ? getMediaUrl(about.value?.seo?.shareImage?.url)
+      ? getMediaUrl(about.value.seo.shareImage.url)
       : undefined,
 });
 
