@@ -66,7 +66,7 @@ export default defineNuxtConfig({
   ],
 
   nitro: {
-    preset: "node-server",
+    preset: process.env.NITRO_PRESET,
   },
 
   experimental: {
